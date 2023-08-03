@@ -19,4 +19,16 @@ router.post('/', (req: Request, res: Response) => {
     res.status(201).json(newNote);
 });
 
+router.delete('/:id', (req: Request, res: Response) => {
+    const idToDelete = Number(req.params.id);
+
+    const deletedNote = notesService.deleteNoteById(idToDelete);
+
+    if (!deletedNote) {
+        return res.status(404).json({ message: 'Note not found' });
+    }
+
+    res.json(deletedNote);
+});
+
 export default router;

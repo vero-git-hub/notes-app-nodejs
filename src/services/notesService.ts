@@ -13,7 +13,20 @@ const addNote = (newNote: Omit<Note, 'id'>): Note => {
     return noteWithId;
 };
 
+const deleteNoteById = (id: number): Note | null => {
+    const noteIndex = notes.findIndex((note) => note.id === id);
+
+    if (noteIndex === -1) {
+        return null;
+    }
+
+    const deletedNote = notes.splice(noteIndex, 1)[0];
+    return deletedNote;
+};
+
+
 export default {
     getAllNotes,
     addNote,
+    deleteNoteById,
 };
