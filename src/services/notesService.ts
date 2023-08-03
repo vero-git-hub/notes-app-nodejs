@@ -43,8 +43,6 @@ const updateNote = (id: number, updatedFields: Partial<Note>): Note | null => {
     return noteToUpdate;
 };
 
-
-
 const deleteNoteById = (id: number): Note | null => {
     const noteIndex = notes.findIndex((note) => note.id === id);
 
@@ -56,10 +54,21 @@ const deleteNoteById = (id: number): Note | null => {
     return deletedNote;
 };
 
+const toggleArchived = (id: number): Note | null => {
+    const noteToUpdate = notes.find((note) => note.id === id);
+
+    if (!noteToUpdate || !noteToUpdate.archived) {
+        return null;
+    }
+
+    noteToUpdate.archived = false;
+    return noteToUpdate;
+};
 
 export default {
     getAllNotes,
     addNote,
     updateNote,
     deleteNoteById,
+    toggleArchived,
 };

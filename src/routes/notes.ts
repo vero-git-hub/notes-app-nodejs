@@ -43,4 +43,16 @@ router.delete('/:id', (req: Request, res: Response) => {
     res.json(deletedNote);
 });
 
+router.get('/:id', (req: Request, res: Response) => {
+    const idToUpdate = Number(req.params.id);
+
+    const updatedNote = notesService.toggleArchived(idToUpdate);
+
+    if (!updatedNote) {
+        return res.status(404).json({ message: 'Note not found or archived is already false' });
+    }
+
+    res.json(updatedNote);
+});
+
 export default router;
