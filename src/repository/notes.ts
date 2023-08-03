@@ -4,6 +4,7 @@ export interface Note {
     date: string;
     category: string;
     content: string;
+    archived: boolean;
 }
 
 const notes: Note[] = [
@@ -13,6 +14,7 @@ const notes: Note[] = [
         date: '2023-08-01',
         category: 'Idea',
         content: 'Upgrade my computer with an Intel Core i9 processor',
+        archived: false
     },
     {
         id: 2,
@@ -20,6 +22,7 @@ const notes: Note[] = [
         date: '2023-08-02',
         category: 'Task',
         content: 'Reschedule the planting of the rose bush from 04/09/2023 to 05/10/2023',
+        archived: false
     },
 ];
 

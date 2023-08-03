@@ -6,7 +6,7 @@ const getAllNotes = (): Note[] => {
     return notes;
 };
 
-const addNote = (newNote: Omit<Note, 'id'>): Note => {
+const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note => {
     const noteWithId: Note = { id: nextId, ...newNote };
     notes.push(noteWithId);
     nextId++;

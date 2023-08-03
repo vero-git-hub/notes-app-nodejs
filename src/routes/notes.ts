@@ -15,9 +15,10 @@ router.post('/', (req: Request, res: Response) => {
         return res.status(400).json({ message: 'The fields name, date, category, and content are required' });
     }
 
-    const newNote = notesService.addNote({ name, date, category, content });
+    const newNote = notesService.addNote({ name, date, category, content, archived: false });
     res.status(201).json(newNote);
 });
+
 
 router.delete('/:id', (req: Request, res: Response) => {
     const idToDelete = Number(req.params.id);
