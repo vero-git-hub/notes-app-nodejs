@@ -13,6 +13,38 @@ const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note => {
     return noteWithId;
 };
 
+const updateNote = (id: number, updatedFields: Partial<Note>): Note | null => {
+    const noteToUpdate = notes.find((note) => note.id === id);
+
+    if (!noteToUpdate) {
+        return null;
+    }
+
+    if (updatedFields.name !== undefined) {
+        noteToUpdate.name = updatedFields.name;
+    }
+
+    if (updatedFields.date !== undefined) {
+        noteToUpdate.date = updatedFields.date;
+    }
+
+    if (updatedFields.category !== undefined) {
+        noteToUpdate.category = updatedFields.category;
+    }
+
+    if (updatedFields.content !== undefined) {
+        noteToUpdate.content = updatedFields.content;
+    }
+
+    if (updatedFields.archived !== undefined) {
+        noteToUpdate.archived = updatedFields.archived;
+    }
+
+    return noteToUpdate;
+};
+
+
+
 const deleteNoteById = (id: number): Note | null => {
     const noteIndex = notes.findIndex((note) => note.id === id);
 
@@ -28,5 +60,6 @@ const deleteNoteById = (id: number): Note | null => {
 export default {
     getAllNotes,
     addNote,
+    updateNote,
     deleteNoteById,
 };

@@ -19,6 +19,17 @@ router.post('/', (req: Request, res: Response) => {
     res.status(201).json(newNote);
 });
 
+router.patch('/:id', (req: Request, res: Response) => {
+    const idToUpdate = Number(req.params.id);
+    const { name, category, content, archived } = req.body;
+
+    const updatedNote = notesService.updateNote(idToUpdate, { name, category, content, archived });
+    if (!updatedNote) {
+        return res.status(404).json({ message: 'Note not found' });
+    }
+
+    res.json(updatedNote);
+});
 
 router.delete('/:id', (req: Request, res: Response) => {
     const idToDelete = Number(req.params.id);
