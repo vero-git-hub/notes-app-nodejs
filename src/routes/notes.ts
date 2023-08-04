@@ -12,14 +12,13 @@ router.get('/', (req: Request, res: Response) => {
 router.post('/', (req: Request, res: Response) => {
     const { name, category, content } = req.body;
 
-    if (!name || !category || !content) {
-        return res.status(400).json({ message: 'The fields name, category and content are required' });
-    }
-
     const created = getCurrentFormattedDate();
     const dates = parseDatesFromString(content);
 
     const newNote = notesService.addNote({ name, created, category, content, dates, archived: false });
+    if (typeof newNote === 'string') {
+        return res.status(400).json({ message: newNote });
+    }
     res.status(201).json(newNote);
 });
 

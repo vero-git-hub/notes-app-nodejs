@@ -4,6 +4,9 @@ export const getCurrentFormattedDate = (): string => {
 };
 
 export const parseDatesFromString = (str: string): string => {
+    if (!str) {
+        return '';
+    }
     const dateRegex = /\d{1,2}\/\d{1,2}\/\d{4}/g;
     const dates = str.match(dateRegex);
     if (dates) {

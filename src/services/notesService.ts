@@ -14,7 +14,11 @@ const getAllNotes = (): Note[] => {
 };
 
 const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note | string => {
-    const { category } = newNote;
+    const { name, category, content } = newNote;
+
+    if (!name || !category || content===null) {
+        return 'The fields name, category, and content are required';
+    }
 
     if (!isValidCategory(category)) {
         return `Invalid category: ${category}. Please provide one of the following categories: ${categories.join(', ')}`;
