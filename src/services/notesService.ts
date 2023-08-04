@@ -1,4 +1,5 @@
 import notes, { Note } from '../repository/notes';
+import {parseDatesFromString} from "../helpers/utility_functions";
 
 let nextId = notes.length + 1;
 
@@ -53,6 +54,7 @@ const updateNote = (id: number, updatedFields: Partial<Note>): Note | string => 
 
     if (updatedFields.content !== undefined) {
         noteToUpdate.content = updatedFields.content;
+        noteToUpdate.dates = parseDatesFromString(updatedFields.content);
     }
 
     if (updatedFields.archived !== undefined) {

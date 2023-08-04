@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import notesService from '../services/notesService';
-import {getCurrentFormattedDate} from "../helpers/utility_functions";
+import {getCurrentFormattedDate, parseDatesFromString} from "../helpers/utility_functions";
 
 const router = express.Router();
 
@@ -17,8 +17,9 @@ router.post('/', (req: Request, res: Response) => {
     }
 
     const created = getCurrentFormattedDate();
+    const dates = parseDatesFromString(content);
 
-    const newNote = notesService.addNote({ name, created, category, content, archived: false });
+    const newNote = notesService.addNote({ name, created, category, content, dates, archived: false });
     res.status(201).json(newNote);
 });
 
