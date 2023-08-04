@@ -19,7 +19,10 @@ const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note | stri
         return `Invalid category: ${category}. Please provide one of the following categories: ${categories.join(', ')}`;
     }
 
-    const noteWithId: Note = { id: nextId, ...newNote };
+    const noteWithId: Note = {
+        id: nextId,
+        ...newNote
+    };
     notes.push(noteWithId);
     nextId++;
     return noteWithId;
@@ -40,8 +43,8 @@ const updateNote = (id: number, updatedFields: Partial<Note>): Note | string => 
         noteToUpdate.name = updatedFields.name;
     }
 
-    if (updatedFields.date !== undefined) {
-        noteToUpdate.date = updatedFields.date;
+    if (updatedFields.created !== undefined) {
+        noteToUpdate.created = updatedFields.created;
     }
 
     if (updatedFields.category !== undefined) {

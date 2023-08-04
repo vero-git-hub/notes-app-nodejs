@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import notesService from '../services/notesService';
+import {getCurrentFormattedDate} from "../helpers/utility_functions";
 
 const router = express.Router();
 
@@ -9,13 +10,15 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.post('/', (req: Request, res: Response) => {
-    const { name, date, category, content } = req.body;
+    const { name, category, content } = req.body;
 
-    if (!name || !date || !category || !content) {
-        return res.status(400).json({ message: 'The fields name, date, category, and content are required' });
+    if (!name || !category || !content) {
+        return res.status(400).json({ message: 'The fields name, category and content are required' });
     }
 
-    const newNote = notesService.addNote({ name, date, category, content, archived: false });
+    const created = getCurrentFormattedDate();
+
+    const newNote = notesService.addNote({ name, created, category, content, archived: false });
     res.status(201).json(newNote);
 });
 
