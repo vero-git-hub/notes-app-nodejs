@@ -65,10 +65,33 @@ const toggleArchived = (id: number): Note | null => {
     return noteToUpdate;
 };
 
+const getStats = (): any[] => {
+    const categories = ['task', 'randomThought', 'idea'];
+
+    const stats: any[] = [];
+
+    for (const category of categories) {
+        const lowerCaseCategory = category.toLowerCase();
+
+        const archivedCount = notes.filter((note) => note.category.toLowerCase() === lowerCaseCategory && note.archived).length;
+        const activeCount = notes.filter((note) => note.category.toLowerCase() === lowerCaseCategory && !note.archived).length;
+
+        stats.push({
+            category,
+            archivedCount,
+            activeCount,
+        });
+    }
+
+    return stats;
+};
+
+
 export default {
     getAllNotes,
     addNote,
     updateNote,
     deleteNoteById,
     toggleArchived,
+    getStats,
 };

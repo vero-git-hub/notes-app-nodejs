@@ -43,6 +43,11 @@ router.delete('/:id', (req: Request, res: Response) => {
     res.json(deletedNote);
 });
 
+router.get('/stats', (req: Request, res: Response) => {
+    const stats = notesService.getStats();
+    res.json(stats);
+});
+
 router.get('/:id', (req: Request, res: Response) => {
     const idToUpdate = Number(req.params.id);
 
