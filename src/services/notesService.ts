@@ -2,22 +2,38 @@ import notes, { Note } from '../repository/notes';
 
 let nextId = notes.length + 1;
 
+const categories = ['Task', 'Random Thought', 'Idea'];
+
+const isValidCategory = (category: string): boolean => {
+    return categories.includes(category);
+};
+
 const getAllNotes = (): Note[] => {
     return notes;
 };
 
-const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note => {
+const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note | string => {
+    const { category } = newNote;
+
+    if (!isValidCategory(category)) {
+        return `Invalid category: ${category}. Please provide one of the following categories: ${categories.join(', ')}`;
+    }
+
     const noteWithId: Note = { id: nextId, ...newNote };
     notes.push(noteWithId);
     nextId++;
     return noteWithId;
 };
 
-const updateNote = (id: number, updatedFields: Partial<Note>): Note | null => {
+const updateNote = (id: number, updatedFields: Partial<Note>): Note | string => {
     const noteToUpdate = notes.find((note) => note.id === id);
 
     if (!noteToUpdate) {
-        return null;
+        return 'Note not found';
+    }
+
+    if (updatedFields.category !== undefined && !isValidCategory(updatedFields.category)) {
+        return `Invalid category: ${updatedFields.category}. Please provide one of the following categories: ${categories.join(', ')}`;
     }
 
     if (updatedFields.name !== undefined) {
