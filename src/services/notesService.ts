@@ -1,5 +1,7 @@
 import notes, { Note } from '../repository/notes';
 import {parseDatesFromString} from "../helpers/utility_functions";
+import * as Yup from 'yup';
+
 
 let nextId = notes.length + 1;
 
@@ -13,15 +15,31 @@ const getAllNotes = (): Note[] => {
     return notes;
 };
 
-const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note | string => {
-    const { name, category, content } = newNote;
+type ErrorResponse = {
+    message: string;
+    errors: string[];
+};
 
-    if (!name || !category || content===null) {
-        return 'The fields name, category, and content are required';
-    }
+const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note | ErrorResponse  => {
+    const schema = Yup.object().shape({
+        name: Yup.string().required('The field "name" is required.'),
+        category: Yup.string()
+            .oneOf(categories, `Invalid category. Please provide one of the following categories: ${categories.join(', ')}`)
+            .required('The field "category" is required.'),
+        content: Yup.string().trim().required('The field "content" is required.'),
+    });
 
-    if (!isValidCategory(category)) {
-        return `Invalid category: ${category}. Please provide one of the following categories: ${categories.join(', ')}`;
+    try {
+        schema.validateSync(newNote, { abortEarly: false });
+    } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+            const errors: string[] = error.inner.map((err) => err.message);
+            return {
+                message: `${errors.length} errors occurred.`,
+                errors,
+            };
+        }
+        throw new Error('An unknown error occurred during validation.');
     }
 
     const noteWithId: Note = {
