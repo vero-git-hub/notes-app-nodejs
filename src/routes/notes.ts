@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import notesService from '../services/notesService';
 import {getCurrentFormattedDate, parseDatesFromString} from "../helpers/utility_functions";
+import {allowedFields} from "../repository/notes";
 
 const router = express.Router();
 
@@ -8,8 +9,6 @@ router.get('/', (req: Request, res: Response) => {
     const notes = notesService.getAllNotes();
     res.json(notes);
 });
-
-const allowedFields = ['name', 'category', 'content'];
 
 router.post('/', (req: Request, res: Response) => {
     const unknownFields = Object.keys(req.body).filter(field => !allowedFields.includes(field));
@@ -32,6 +31,11 @@ router.post('/', (req: Request, res: Response) => {
 router.patch('/:id', (req: Request, res: Response) => {
     const idToUpdate = Number(req.params.id);
     const { name, category, content, archived } = req.body;
+
+    const unknownFields = Object.keys(req.body).filter(field => !allowedFields.includes(field));
+    if (unknownFields.length > 0) {
+        return res.status(400).json({ message: `Unknown fields: ${unknownFields.join(', ')}` });
+    }
 
     const updatedNote = notesService.updateNote(idToUpdate, { name, category, content, archived });
     if (!updatedNote) {

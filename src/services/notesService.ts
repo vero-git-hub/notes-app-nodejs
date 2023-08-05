@@ -1,11 +1,8 @@
-import notes, { Note } from '../repository/notes';
+import notes, {categories, Note} from '../repository/notes';
 import {parseDatesFromString, isStringOnlyDigits} from "../helpers/utility_functions";
 import * as Yup from 'yup';
 
-
 let nextId = notes.length + 1;
-
-const categories = ['Task', 'Random Thought', 'Idea'];
 
 const isValidCategory = (category: string): boolean => {
     return categories.includes(category);
@@ -65,15 +62,19 @@ const updateNote = (id: number, updatedFields: Partial<Note>): Note | string => 
     }
 
     if (updatedFields.category !== undefined && !isValidCategory(updatedFields.category)) {
-        return `Invalid category: ${updatedFields.category}. Please provide one of the following categories: ${categories.join(', ')}`;
+        if(!isStringOnlyDigits(updatedFields.category)) {
+            return `Invalid category: ${updatedFields.category}. Please provide one of the following categories: ${categories.join(', ')}`;
+        } else {
+            return "Field category must be string ";
+        }
     }
 
     if (updatedFields.name !== undefined) {
-        noteToUpdate.name = updatedFields.name;
-    }
-
-    if (updatedFields.created !== undefined) {
-        noteToUpdate.created = updatedFields.created;
+        if(!isStringOnlyDigits(updatedFields.name)) {
+            noteToUpdate.name = updatedFields.name;
+        } else {
+            return "Field name must be string ";
+        }
     }
 
     if (updatedFields.category !== undefined) {
@@ -81,8 +82,12 @@ const updateNote = (id: number, updatedFields: Partial<Note>): Note | string => 
     }
 
     if (updatedFields.content !== undefined) {
-        noteToUpdate.content = updatedFields.content;
-        noteToUpdate.dates = parseDatesFromString(updatedFields.content);
+        if(!isStringOnlyDigits(updatedFields.content)) {
+            noteToUpdate.content = updatedFields.content;
+            noteToUpdate.dates = parseDatesFromString(updatedFields.content);
+        } else {
+            return "Field content must be string ";
+        }
     }
 
     if (updatedFields.archived !== undefined) {

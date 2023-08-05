@@ -28,6 +28,51 @@ const notes: Note[] = [
         id: 2,
         name: 'Note 2',
         created: getCurrentFormattedDate(),
+        category: 'Random Thought',
+        content: note2,
+        dates: parseDatesFromString(note2),
+        archived: false
+    },
+    {
+        id: 3,
+        name: 'Note',
+        created: getCurrentFormattedDate(),
+        category: 'Task',
+        content: note2,
+        dates: parseDatesFromString(note2),
+        archived: false
+    },
+    {
+        id: 4,
+        name: 'Note',
+        created: getCurrentFormattedDate(),
+        category: 'Random Thought',
+        content: note2,
+        dates: parseDatesFromString(note2),
+        archived: false
+    },
+    {
+        id: 5,
+        name: 'Note',
+        created: getCurrentFormattedDate(),
+        category: 'Task',
+        content: note2,
+        dates: parseDatesFromString(note2),
+        archived: false
+    },
+    {
+        id: 6,
+        name: 'Note',
+        created: getCurrentFormattedDate(),
+        category: 'Idea',
+        content: note2,
+        dates: parseDatesFromString(note2),
+        archived: false
+    },
+    {
+        id: 7,
+        name: 'Note',
+        created: getCurrentFormattedDate(),
         category: 'Task',
         content: note2,
         dates: parseDatesFromString(note2),
@@ -36,3 +81,6 @@ const notes: Note[] = [
 ];
 
 export default notes;
+
+export const categories = ['Task', 'Random Thought', 'Idea'];
+export const allowedFields = ['name', 'category', 'content'];

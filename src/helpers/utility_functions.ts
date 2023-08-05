@@ -17,6 +17,6 @@ export const parseDatesFromString = (str: string): string => {
 };
 
 export const isStringOnlyDigits = (str: string): boolean => {
-    const regex = /^\d+$/; // Regular expression for matching digits
+    const regex = /^\d+$/;
     return regex.test(str);
 };
