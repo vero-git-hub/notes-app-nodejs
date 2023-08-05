@@ -123,8 +123,6 @@ const toggleArchived = (id: number): Note | null => {
 };
 
 const getStats = (): any[] => {
-    const categories = ['task', 'randomThought', 'idea'];
-
     const stats: any[] = [];
 
     for (const category of categories) {
