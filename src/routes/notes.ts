@@ -9,7 +9,14 @@ router.get('/', (req: Request, res: Response) => {
     res.json(notes);
 });
 
+const allowedFields = ['name', 'category', 'content'];
+
 router.post('/', (req: Request, res: Response) => {
+    const unknownFields = Object.keys(req.body).filter(field => !allowedFields.includes(field));
+    if (unknownFields.length > 0) {
+        return res.status(400).json({ message: `Unknown fields: ${unknownFields.join(', ')}` });
+    }
+
     const { name, category, content } = req.body;
 
     const created = getCurrentFormattedDate();

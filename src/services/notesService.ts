@@ -21,9 +21,10 @@ type ErrorResponse = {
 };
 
 const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note | ErrorResponse | string  => {
-    const { name, category, content } = newNote;
+    const { name, created, category, content } = newNote;
+
     if (isStringOnlyDigits(name) || isStringOnlyDigits(category) || isStringOnlyDigits(content)){
-        return "Fields must be string";
+        return "Fields must be string ";
     }
 
     const schema = Yup.object().shape({
