@@ -84,3 +84,4 @@ export default notes;
 
 export const categories = ['Task', 'Random Thought', 'Idea'];
 export const allowedFields = ['name', 'category', 'content'];
+export const allowedFieldsForEdit = ['name', 'category', 'content', "archived"];

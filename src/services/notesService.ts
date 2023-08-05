@@ -91,6 +91,9 @@ const updateNote = (id: number, updatedFields: Partial<Note>): Note | string => 
     }
 
     if (updatedFields.archived !== undefined) {
+        if (typeof updatedFields.archived !== 'boolean') {
+            return 'Invalid value for "archived" field. It should be a boolean.';
+        }
         noteToUpdate.archived = updatedFields.archived;
     }
 
