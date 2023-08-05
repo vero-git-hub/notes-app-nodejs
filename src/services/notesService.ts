@@ -1,5 +1,5 @@
 import notes, { Note } from '../repository/notes';
-import {parseDatesFromString} from "../helpers/utility_functions";
+import {parseDatesFromString, isStringOnlyDigits} from "../helpers/utility_functions";
 import * as Yup from 'yup';
 
 
@@ -20,7 +20,12 @@ type ErrorResponse = {
     errors: string[];
 };
 
-const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note | ErrorResponse  => {
+const addNote = (newNote: Omit<Note, 'id'> & { archived: boolean }): Note | ErrorResponse | string  => {
+    const { name, category, content } = newNote;
+    if (isStringOnlyDigits(name) || isStringOnlyDigits(category) || isStringOnlyDigits(content)){
+        return "Fields must be string";
+    }
+
     const schema = Yup.object().shape({
         name: Yup.string().required('The field "name" is required.'),
         category: Yup.string()
