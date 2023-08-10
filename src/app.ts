@@ -1,12 +1,16 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import bodyParser from 'body-parser';
+import notesRouter from './routes/notes';
 
 const app = express();
 const port = 3000;
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello, World!');
-});
+app.use(bodyParser.json());
+
+app.use('/notes', notesRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
+
+export default app;
